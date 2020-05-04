@@ -9,7 +9,7 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '/public')));
 
 /* Include credentials and return a mySQL pool. */
-var xData = require('./dbcon.js');
+var xData = require('./dbconnection.js');
 
 /* Start express-handlebars. Set the main layout. */
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
