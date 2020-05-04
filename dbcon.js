@@ -4,7 +4,7 @@ var pool = mysql.createPool({
   host            : 'classmysql.engr.oregonstate.edu',
   user            : 'cs340_USERNAME',
   password        : 'YOUR_PASSWORD_GOES_HERE',
-  database        : 'cs340_USERNAME'
+  database        : 'cs340_USERNAME_GOES_HERE'
 });
 
 module.exports.pool = pool;
