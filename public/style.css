@@ -1,0 +1,263 @@
+/* These code segments set the page's basic settings.*/
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    background-color: #000000;
+    background-image: url("space.jpg");
+    color: #FFFFFF;
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
+}
+
+/* Sets vertical alignment of all image tags.*/
+img {
+    width: 100%;
+    vertical-align: middle;
+}
+
+/* Sets the positioning and background color of the purple content block (which contains
+   the navigation bar). It is fixed and won't move when the page is scrolled.*/
+div.purple_block {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    background-color: #292a3b;
+}
+
+/* This container adjusts for the space occupied by the navigation bar.*/
+div.nav_spacer {
+    height: 60px;
+    width: 100%;
+}
+
+/* This container wraps the entire navigation bar, including empty space.*/
+div.header_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+/* This spacer creates the empty segments on the left and right of the navigation bar.*/
+div.side_spacer {
+    width: 20%;
+}
+
+/* This block contains all the elements of the navigation bar.*/
+div.center_block {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* This container prevents the navigation title text from shrinking when the screen is resized.*/
+div.page_title_container {
+    flex-shrink: 0;
+}
+
+/* This code formats the text of the navigation bar's title.*/
+span#page_title_text {
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #c3c5c9;
+}
+
+/* This wrapper holds the navigation bar elements.*/
+nav#navigation_bar {
+    display: flex;
+}
+
+/* This code formats the various list tags into navigation buttons (ex: HOME).*/
+nav#navigation_bar > ul {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+}
+
+li.nav_content {
+    list-style: none;
+    flex-shrink: 0;
+    display: block;
+}
+
+/* This code handles the styling of the navigation buttons.*/
+li.nav_content a {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    text-decoration: none;
+    color: #c3c5c9;
+}
+
+/* This code handles the padding of the navigation buttons.*/
+a.nav_link {
+    padding: 16px;
+}
+
+/* Formats the visible arrows that indicate a drop-down menu.*/
+span.arrow {
+    padding-left: 5px;
+    font-size: 5px;
+}
+
+/* This code manages the drop-down menu's buttons. When the user isn't hovering over them,
+   they are hidden from view.*/
+ul.dropdown_content {
+    list-style: none;
+    display: none;
+    padding: 0px;
+}
+
+/* When the drop-down menu elements are visible, they stretch in width to match the length
+   of the longest menu item.*/
+ul.dropdown_content > li {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    list-style: none;
+}
+
+/* This code handles the behaviors that occur when the user hovers over a navigation button or dropdown menu.
+   It specifically formats the (now visible) drop-down menu content. This content has a slightly lighter
+   background than the main menu.*/
+li.nav_content:hover .dropdown_content {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: stretch;
+    color: #c3c5c9;
+    background: #2f3041;
+}
+
+/* On hover, the background and text-color changes for any navigation button (ex: HOME).*/
+li.nav_content a:hover {
+    background: #212232;
+    color: #fd6703;
+}
+
+/* This is the container for the page's main content block.*/
+div#content_block {
+    width: 60%;
+    min-height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #000000;
+}
+
+/* The following code manages the various content modules held inside the content block.*/
+
+/* This controls the styling of the floating modules. */
+div.module {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #1f1f24;
+    color: #f2f2f2;
+    border-radius: 10px 10px 10px 10px;
+}
+
+/* This controls text card's weird border. */
+div.module_inner_border {
+    padding: 30px;
+    border-width: thick;
+    border-style: solid;
+    border-color: #303847;
+    border-radius: 10px 10px 10px 10px;
+}
+
+/* These code segments format all data tables. */
+table {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-width: thick;
+    border-style: solid;
+    border-color: #303847;
+    border-radius: 10px 10px 10px 10px;
+}
+
+thead {
+    background-color: #1f1f24;
+    color: #f2f2f2;
+}
+
+th.th_title {
+    background-image: url("/space_transparent_gray.png");
+    padding: 20px;
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #c3c5c9;
+}
+
+th.th_category {
+    background-image: url("/space_transparent.png");
+    padding: 10px;
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    color: #c0c0c0;
+}
+
+td {
+    font-family: 'Jost', sans-serif;
+}
+
+tbody > tr:nth-of-type(odd) {
+    background: #989aa4;
+    color: #563f46;
+}
+
+tbody > tr:nth-of-type(even) {
+    background: #292a3b;
+    color: #f2f2f2;
+}
+
+/* This controls the styling of the banner with planets that tops most tables. */
+div#planets_banner {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* This controls the styling of the banner with the various factions. */
+div#factions_banner {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px 20px 40px;
+}
+
+/* This styles the small, white icons. */
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* This formats the small, white icons when held inside a container. (ex: submit button) */
+td.icon_container {
+    padding: 5px;
+}
+
+/* This formats the small icons when used solely as an image. (ex: sample button)*/
+img#form_icon {
+    margin: 5px;
+}

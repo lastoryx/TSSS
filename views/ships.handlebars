@@ -1,0 +1,39 @@
+<div id="planets_banner"><img src="planets2.jpg"></div>
+
+<div class="module">
+
+    <!-- If there's an element to display, display the data-table. -->
+    {{#if count}}
+        <table>
+            <tr>
+                <th colspan="{{columns}}" class="th_title">{{title}}</th>
+            </tr>
+            <tr>
+                <th class="th_category">Name</th>
+                <th class="th_category">Type</th>
+                <th class="th_category">Class</th>
+                <th class="th_category">Owning Faction</th>
+
+                <!-- REPLACE WITH FORM FOR ADDING A NEW ELEMENT -->
+                <th class="th_category"><img src="icon_new.png" class="icon"></th>
+            </tr>
+
+            {{#each x}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{type}}</td>
+                    <td>{{class}}</td>
+                    <td>{{owning_faction}}</td>
+
+                    <!-- REPLACE WITH FORM FOR EDITING/UPDATING AN ELEMENT -->
+                    <td class="icon_container"><img src="icon_edit.png" class="icon"><img src="icon_delete.png"
+                                                                                          class="icon"></td>
+                </tr>
+            {{/each}}
+
+        </table>
+        <!-- If the data set is empty, display an error message. -->
+    {{else}}
+        <span><p>It looks like there isn't any data to display.</p></span>
+    {{/if}}
+</div>

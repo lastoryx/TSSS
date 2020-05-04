@@ -1,0 +1,18 @@
+{
+  "name": "TSSS",
+  "version": "1.0.0",
+  "description": "Tycho Station Surveillance System",
+  "main": "script.js",
+  "scripts": {},
+  "author": "Nicole Reynoldson & Aaron Thompson",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.2",
+    "express-handlebars": "^2.0.1",
+    "express-session": "^1.17.1",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7",
+    "request": "^2.88.2"
+  }
+}

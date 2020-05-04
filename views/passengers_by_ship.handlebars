@@ -1,0 +1,39 @@
+<div id="planets_banner"><img src="planets2.jpg"></div>
+<div class="module">
+
+        <form method="post" id="post_search">
+            <table>
+                <tr>
+                    <th class="th_category" style="width:10%"><br></th>
+                    <th class="th_category">
+                        <label for="form_name">Search for Passenger Manifest by Ship: </label>
+                    </th>
+                    <th class="th_category">
+                        <select id="available_ships" name="ship_to_search_for">
+                            {{#each x}}
+                                <option value="{{ship_id}}" selected>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </th>
+                    <th class="th_category">
+
+                        <img src="icon_search.png" class="icon">
+                        <!-- <input name="Search" src="icon_search.png" type="image" value="Retrieve Passenger List"
+                                class="icon"> -->
+
+                    </th>
+                    <th class="th_category" style="width:10%"><br></th>
+                </tr>
+            </table>
+        </form>
+
+    {{#if display}}
+        <tr>
+            <th>
+                <span>You searched for {{ship_id}}</span>.
+            </th>
+        </tr>
+    {{/if}}
+
+    </table>
+</div>

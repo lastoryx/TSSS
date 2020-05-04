@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Stylesheets & Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+<div class="purple_block">
+    <div class="header_container">
+
+        <!-- Spacer-->
+        <div class="side_spacer"></div>
+
+        <div class="center_block">
+
+            <!-- This container holds the title.-->
+            <div class="page_title_container"><span id="page_title_text">Tycho Station Surveillance System</span></div>
+
+            <!-- Begin navigation bar.-->
+            <nav id="navigation_bar">
+                <ul>
+                    <li class="nav_content"><a href="/" class="nav_link">HOME</a></li>
+                    <li class="nav_content"><a href="people.html" class="nav_link">PEOPLE <span class="arrow">&#x25BC;</span></a>
+
+                        <!-- Dropdown Menu -->
+                        <ul class="dropdown_content">
+                            <li><a href="people.html" class="nav_link">View All People</a></li>
+                            <li><a href="ships_boarded_by_individual.html" class="nav_link">View Ships Boarded by Individual</a></li>
+                            <li><a href="resume.html" class="nav_link">View Individual's Skills</a></li>
+                        </ul>
+
+                    <li class="nav_content"><a href="ships.html" class="nav_link">SHIPS <span class="arrow">&#x25BC;</span></a>
+
+                        <!-- Dropdown Menu -->
+                        <ul class="dropdown_content">
+                            <li><a href="ships.html" class="nav_link">View All Ships</a></li>
+                            <li><a href="passengers_by_ship.html" class="nav_link">View Passengers by Ship</a></li>
+                        </ul>
+
+                    </li>
+                    <li class="nav_content"><a href="worlds.html" class="nav_link">WORLDS</a></li>
+                    <li class="nav_content"><a href="factions.html" class="nav_link">FACTIONS</a></li>
+                    <li class="nav_content"><a href="skills.html" class="nav_link">SKILLS</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- End navigation bar.-->
+
+        <!-- Spacer -->
+        <div class="side_spacer"></div>
+    </div>
+</div>
+
+
+<!-- Content modules should all be contained within the content block. -->
+<div id="content_block">
+    <!-- This spacer adjusts for the space occupied by the fixed navigation bar. -->
+    <div class="nav_spacer"></div>
+
+    {{{body}}}
+
+    <!-- This spacer creates space at the bottom of the page. -->
+    <div class="nav_spacer"></div>
+</div>
+<!-- End content block. -->
+
+</body>
+</html>
