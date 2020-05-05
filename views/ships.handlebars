@@ -13,21 +13,47 @@
                 <th class="th_category">Type</th>
                 <th class="th_category">Class</th>
                 <th class="th_category">Owning Faction</th>
-
-                <!-- REPLACE WITH FORM FOR ADDING A NEW ELEMENT -->
-                <th class="th_category"><img src="icon_new.png" class="icon"></th>
+                <th class="th_category" style="width: 50px;"><br></th>
             </tr>
 
-            {{#each x}}
+            <tr>
+                <form method="post" id="post_new_ship">
+                    <Td>
+                        <input type="text" id="form_ship_name" name="ship_name" placeholder="USS Enterprise" required>
+                    </Td>
+                    <td><input type="text" id="form_ship_type" name="ship_type" placeholder="Battleship" required></td>
+                    <td><input type="text" id="form_ship_class" name="ship_class" placeholder="Constitution" required>
+                    </td>
+                    <td>
+                    <select id="form_factions" name="faction">
+                        {{#each factions}}
+                            <option value="{{faction_id}}" selected>{{name}}</option>
+                        {{/each}}
+                    </select></td>
+
+                    <td>
+                        <input type="submit" name="New" value="+"></td>
+                </form>
+            </tr>
+
+            {{#each ships}}
+
                 <tr>
                     <td>{{name}}</td>
                     <td>{{type}}</td>
                     <td>{{class}}</td>
                     <td>{{owning_faction}}</td>
 
-                    <!-- REPLACE WITH FORM FOR EDITING/UPDATING AN ELEMENT -->
-                    <td class="icon_container"><img src="icon_edit.png" class="icon"><img src="icon_delete.png"
-                                                                                          class="icon"></td>
+                    <!-- REPLACE WITH FORM FOR EDITING/UPDATING ELEMENT -->
+                    <td class="icon_container"><img src="icon_edit.png" class="icon">
+
+
+                        <form method="post" id="post_delete_ship">
+
+                            <input type="hidden" name="ship_id" value="{{ship_id}}">
+                        <input type="submit" name="Delete" value="x"></form>
+                        </td>
+
                 </tr>
             {{/each}}
 

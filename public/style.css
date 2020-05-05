@@ -162,7 +162,7 @@ div#content_block {
 
 /* This controls the styling of the floating modules. */
 div.module {
-    width: 70%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
@@ -231,7 +231,7 @@ tbody > tr:nth-of-type(even) {
 
 /* This controls the styling of the banner with planets that tops most tables. */
 div#planets_banner {
-    width: 70%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -261,3 +261,4 @@ td.icon_container {
 img#form_icon {
     margin: 5px;
 }
+

@@ -48,7 +48,7 @@ app.get('/', function (req, res, next) {
 
     var context = {};
 
-    /* Renders the people page.*/
+    /* Renders the front page.*/
     res.render('front', context);
 });
 
@@ -81,11 +81,56 @@ app.get('/people.html', function (req, res, next) {
 
 app.get('/ships.html', function (req, res, next) {
 
+    renderShips(res, next);
+});
+
+app.post('/ships.html', function (req, res, next) {
+
+    /* Empty context object that will be passed to the view.*/
+    var context = {};
+
+    /* If the post body requested that we add an item, add an item
+     * to the database. */
+
+    if (req.body['New']) {
+
+        xData.pool.query("INSERT INTO ships(`name`, `class`, `type`, `faction`) VALUES(?,?,?,?)", [req.body.ship_name, req.body.ship_class, req.body.ship_type, req.body.faction], function (err, result) {
+            /* Skips to the 500 page is an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            renderShips(res, next);
+        });
+    }
+
+    if (req.body['Delete']) {
+
+        xData.pool.query("DELETE FROM ships WHERE ships.ship_id=?", [req.body.ship_id], function (err, result) {
+            /* Skips to the 500 page is an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            renderShips(res, next);
+        });
+    }
+
+
+
+});
+
+
+
+function renderShips(res, next){
+
     var context = {};
 
     /* Query the database and load the SHIPS table.*/
 
-    xData.pool.query('SELECT ships.name, ships.type, ships.class, factions.name AS owning_faction FROM ships INNER JOIN factions ON ships.faction=factions.faction_id ORDER BY ships.name', function (err, result, fields) {
+    xData.pool.query('SELECT ships.ship_id, ships.name, ships.type, ships.class, factions.name AS owning_faction FROM ships INNER JOIN factions ON ships.faction=factions.faction_id ORDER BY ships.name', function (err, result, fields) {
 
         /* Skips to the 500 page if an error is returned.*/
         if (err) {
@@ -94,15 +139,28 @@ app.get('/ships.html', function (req, res, next) {
         }
 
         /* Stores the results from the form.*/
-        context.x = result;
+        context.ships = result;
         context.count=result.length;
         context.columns=result.length+1;
         context.title="Ships";
 
-        /* Renders the ships page.*/
-        res.render('ships', context);
+        xData.pool.query('SELECT factions.faction_id, factions.name FROM factions', function (err, result, fields) {
+
+            /* Skips to the 500 page if an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            /* Stores the results from the form.*/
+            context.factions = result;
+
+            /* Renders the ships page.*/
+            res.render('ships', context);
+        });
     });
-});
+}
+
 
 app.get('/passengers_by_ship.html', function (req, res, next) {
 
