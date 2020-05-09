@@ -52,27 +52,120 @@ app.get('/people.html', function (req, res, next) {
 
     var context = {};
 
-    /* Query the database and load the PEOPLE table.*/
-
-    xData.pool.query('SELECT people.first_name, people.last_name, worlds.name AS homeworld, factions.acronym AS faction, people.living FROM people INNER JOIN worlds ON people.homeworld = worlds.world_id LEFT JOIN factions ON people.faction = factions.faction_id ORDER BY people.last_name\n', function (err, result, fields) {
-
-        /* Skips to the 500 page if an error is returned.*/
-        if (err) {
-            next(err);
-            return;
-        }
-
-        /* Stores the results from the form.*/
-        context.x = result;
-        context.count = result.length;
-        context.columns = result.length + 1;
-        context.title = "People-of-Interest";
-
-        /* Renders the ships page.*/
-        res.render('people', context);
-    });
+    /* Render the ship page.*/
+    renderPeople(res, next, context);
 });
 
+
+/* This POST request handles all forms submitted on the "View People" page. */
+app.post('/people.html', function (req, res, next) {
+
+    /* Empty context object that will be passed to the view.*/
+    var context = {};
+
+    /* NEW: INSERTS a new person into the database. */
+    if (req.body['New']) {
+
+        /* If the person has no political allegiance, skip adding a faction.*/
+        if (req.body.faction === 'NULL') {
+            xData.pool.query("INSERT INTO people(`first_name`, `last_name`, `homeworld`, `living`) VALUES(?,?,?,?)", [req.body.first_name, req.body.last_name, req.body.worlds, req.body.status], function (err, result) {
+                /* Skips to the 500 page is an error is returned.*/
+                if (err) {
+                    next(err);
+                    return;
+                }
+                /* Render the ship page.*/
+                renderPeople(res, next, context);
+            });
+
+        } else {
+            /* Otherwise, the person has a faction; so insert it.*/
+            xData.pool.query("INSERT INTO people(`first_name`, `last_name`, `homeworld`, `faction`, `living`) VALUES(?,?,?,?,?)", [req.body.first_name, req.body.last_name, req.body.worlds, req.body.faction, req.body.status], function (err, result) {
+                /* Skips to the 500 page is an error is returned.*/
+                if (err) {
+                    next(err);
+                    return;
+                }
+                /* Render the ship page.*/
+                renderPeople(res, next, context);
+            });
+        }
+    }
+
+    /* DELETE: DELETES a selected person and refreshes the "View People" page.*/
+    if (req.body['Delete']) {
+
+        xData.pool.query("DELETE FROM people WHERE people.person_id=?", [req.body.person_id], function (err, result) {
+            /* Skips to the 500 page is an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+            /* Render the ship page.*/
+            renderPeople(res, next, context);
+        });
+    }
+
+    /* EDIT: SELECTS a person to be edited and renders the update_people page. */
+    if (req.body['Edit']) {
+
+        xData.pool.query("SELECT people.person_id, people.first_name, people.last_name, worlds.world_id, worlds.name AS homeworld, factions.faction_id, factions.acronym AS faction, people.living FROM people LEFT JOIN factions ON people.faction=factions.faction_id INNER JOIN worlds ON people.homeworld=worlds.world_id WHERE people.person_id=? ORDER BY people.last_name", [req.body.person_id], function (err, result) {
+            /* Skips to the 500 page if an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            /* Stores information needed for the update_people page.*/
+            context.title = "Edit Person";
+            context.person_id = result[0].person_id;
+            context.first_name = result[0].first_name;
+            context.last_name = result[0].last_name;
+            context.world_name = result[0].homeworld;
+            context.world_id=result[0].world_id;
+          context.status=result[0].living;
+
+
+            if (!result[0].faction) {
+
+                context.faction_name = 'NULL';
+                context.faction_id = '';
+            } else {
+
+                context.faction_name = result[0].faction;
+                context.faction_id=result[0].faction_id;
+
+                console.log(context);
+            }
+
+            /* Selects all the factions from the faction table - this will populate the selection items.*/
+            xData.pool.query("SELECT factions.faction_id, factions.acronym FROM factions", function (err, result) {
+                /* Skips to the 500 page if an error is returned.*/
+                if (err) {
+                    next(err);
+                    return;
+                }
+                context.all_factions = result;
+
+
+                /* Selects all the worlds from the worlds table - this will populate the selection items.*/
+                xData.pool.query("SELECT worlds.world_id, worlds.name FROM worlds", function (err, result) {
+                    /* Skips to the 500 page if an error is returned.*/
+                    if (err) {
+                        next(err);
+                        return;
+                    }
+                    context.all_worlds = result;
+
+                    /* Renders the search page for listing all ships boarded by an individual person.*/
+                    res.render('update_people', context);
+                });
+            });
+        });
+    }
+
+
+});
 
 app.get('/ships_boarded_by_individual.html', function (req, res, next) {
 
@@ -135,7 +228,7 @@ app.get('/ships.html', function (req, res, next) {
 });
 
 
-/* This POST request handles all forms submitted "View Ships" page. */
+/* This POST request handles all forms submitted on the "View Ships" page. */
 app.post('/ships.html', function (req, res, next) {
 
     /* Empty context object that will be passed to the view.*/
@@ -330,7 +423,7 @@ app.post('/passengers_by_ship.html', function (req, res, next) {
         context.ship_manifest = req.body.ship_id;
 
 
-        xData.pool.query('INSERT INTO people_ships(`passenger`, `ship`) VALUES(?,?)', [req.body.person_to_add,req.body.ship_id], function (err, result, fields) {
+        xData.pool.query('INSERT INTO people_ships(`passenger`, `ship`) VALUES(?,?)', [req.body.person_to_add, req.body.ship_id], function (err, result, fields) {
 
             /* Skips to the 500 page if an error is returned.*/
             if (err) {
@@ -466,6 +559,47 @@ app.listen(app.get('port'), function () {
 
 /* These functions render the various pages. */
 
+
+function renderPeople(res, next, context) {
+
+    context.title = "People-of-Interest";
+
+    xData.pool.query('SELECT worlds.world_id, worlds.name FROM worlds', function (err, result, fields) {
+        /* Skips to the 500 page if an error is returned.*/
+        if (err) {
+            next(err);
+            return;
+        }
+
+        context.worlds = result;
+
+        xData.pool.query('SELECT factions.faction_id, factions.acronym FROM factions', function (err, result, fields) {
+            /* Skips to the 500 page if an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            /* Stores the results from the form.*/
+            context.factions = result;
+
+            xData.pool.query('SELECT people.person_id, people.first_name, people.last_name, worlds.world_id, worlds.name AS homeworld, factions.faction_id, factions.acronym AS faction, people.living FROM people LEFT JOIN factions ON people.faction=factions.faction_id INNER JOIN worlds ON people.homeworld=worlds.world_id ORDER BY people.last_name', function (err, result, fields) {
+                /* Skips to the 500 page if an error is returned.*/
+                if (err) {
+                    next(err);
+                    return;
+                }
+
+                /* Stores the results from the form.*/
+                context.person = result;
+
+                /* Renders the people page.*/
+                res.render('people', context);
+            });
+        });
+
+    });
+}
 
 function renderShips(res, next, context) {
     xData.pool.query('SELECT ships.ship_id, ships.name, ships.type, ships.class, factions.name AS owning_faction FROM ships LEFT JOIN factions ON ships.faction=factions.faction_id ORDER BY ships.name', function (err, result, fields) {

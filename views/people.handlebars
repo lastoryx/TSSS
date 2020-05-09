@@ -1,42 +1,88 @@
 <div id="planets_banner"><img src="planets2.jpg"></div>
-
 <div class="module">
+    <table>
+        <tr>
+            <th colspan="5" class="th_title">{{title}}</th>
+        </tr>
+        <tr>
+            <th class="th_category">Name</th>
+            <th class="th_category">Birth World</th>
+            <th class="th_category">Political Affiliation</th>
+            <th class="th_category">Status</th>
+            <th class="th_category"></th>
+        </tr>
+        <tr>
 
-    <!-- If there's an element to display, display the data-table. -->
-    {{#if count}}
-        <table>
+            <form method="post" id="post_new_person">
+                <td><input type="text" id="form_person_first" name="first_name" placeholder="James T." required>
+                    <input type="text" id="form_person_last" name="last_name" placeholder="Kirk" required>
+
+                </td>
+
+                <td>
+                    <select id="form_worlds" name="worlds">
+                        {{#each worlds}}
+                            <option value="{{world_id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </td>
+
+
+                <td>
+                    <select id="form_factions" name="faction">
+                        {{#each factions}}
+                            <option value="{{faction_id}}">{{acronym}}</option>
+                        {{/each}}
+                        <option value="NULL" SELECTED>NULL</option>
+                    </select>
+                </td>
+
+
+                <td>
+                    <select id="form_status" name="status">
+                        <option value="1">Alive</option>
+                        <option value="0">Dead</option>
+                    </select>
+                </td>
+
+
+                <td>
+                    <!-- ADD NEW PERSON -->
+                    <input type="submit" name="New" value="ADD PERSON">
+
+                </td>
+            </form>
+        </tr>
+
+        {{#each person}}
+
             <tr>
-                <th colspan="{{columns}}" class="th_title">{{title}}</th>
-            </tr>
-            <tr>
-                <th class="th_category">Name</th>
-                <th class="th_category">Birth World</th>
-                <th class="th_category">Political Affiliation</th>
-                <th class="th_category">Status</th>
-
-                <!-- REPLACE WITH FORM FOR ADDING A NEW ELEMENT -->
-                <th class="th_category"><img src="icon_new.png" class="icon"></th>
-            </tr>
-
-            {{#each x}}
-                <tr>
-                    <td>{{first_name}} {{last_name}}</td>
-                    <td>{{homeworld}}</td>
-                    <td>{{faction}}</td>
-                    <td>
-                        {{#if living}}Alive
-                        {{else}} Dead
-                        {{/if}}
+                <td>{{first_name}} {{last_name}}</td>
+                <td>{{homeworld}}</td>
+                <td>
+                    {{#if faction}}
+                        {{faction}}
+                    {{else}}<span>NULL</span>
+                    {{/if}}
                     </td>
-                    <!-- REPLACE WITH FORM FOR EDITING/UPDATING ELEMENT -->
-                    <td class="icon_container"><img src="icon_edit.png" class="icon"><img src="icon_delete.png"
-                                                                                          class="icon"></td>
-                </tr>
-            {{/each}}
-        </table>
+                <td>{{#if living}}Alive
+                {{else}} Dead
+                {{/if}}</td>
 
-        <!-- If the data set is empty, display an error message. -->
-    {{else}}
-        <span><p>It looks like there isn't any data to display.</p></span>
-    {{/if}}
+                <Td>
+                    <!-- UPDATE A PERSON-->
+                    <form method="post" id="post_update_person" class="icon_form">
+                        <input type="hidden" name="person_id" value="{{person_id}}">
+                        <input type="submit" name="Edit" value="EDIT">
+                    </form>
+
+                    <!-- DELETE A PERSON -->
+                    <form method="post" id="post_delete_person" class="icon_form">
+                        <input type="hidden" name="person_id" value="{{person_id}}">
+                        <input type="submit" name="Delete" value="&#10060">
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
 </div>
