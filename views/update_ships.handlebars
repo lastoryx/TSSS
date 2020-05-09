@@ -1,0 +1,40 @@
+<div id="planets_banner"><img src="planets2.jpg"></div>
+<div class="module">
+    <table>
+        <tr>
+            <th colspan="5" class="th_title">{{title}}</th>
+        </tr>
+        <tr>
+            <th class="th_category">Name</th>
+            <th class="th_category">Class</th>
+            <th class="th_category">Type</th>
+            <th class="th_category">Owning Faction</th>
+            <th class="th_category"></th>
+        </tr>
+        <tr>
+            <form method="post" id="form_edit_ship">
+                <Td>
+                    <input type="text" id="form_edit_ship_name" name="ship_name" value="{{name}}" required>
+                </Td>
+                <td><input type="text" id="form_edit_ship_class" name="ship_class" value="{{class}}" required></td>
+                <td><input type="text" id="form_edit_ship_type" name="ship_type" value="{{type}}" required></td>
+                  <td>
+                    <select id="form_factions" name="faction">
+                        <option value="{{faction_id}}" selected>{{faction_name}}</option>
+                        <option disabled>----------------------------</option>
+                        {{#each all_factions}}
+                            <option value="{{faction_id}}">{{name}}</option>
+                        {{/each}}
+                        <option value="">NULL</option>
+                    </select>
+                  </td>
+                <td>
+                    <!-- UPDATE EDITED SHIP -->
+                    <input type="hidden" name="ship_id" value="{{ship_id}}">
+                    <input type="submit" name="Save" value="SAVE">
+
+                </td>
+            </form>
+        </tr>
+    </table>
+</div>

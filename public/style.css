@@ -162,7 +162,7 @@ div#content_block {
 
 /* This controls the styling of the floating modules. */
 div.module {
-    width: 80%;
+    width: 75%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
@@ -215,6 +215,12 @@ th.th_category {
     color: #c0c0c0;
 }
 
+form.icon_form{
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+}
+
 td {
     font-family: 'Jost', sans-serif;
 }
@@ -231,7 +237,7 @@ tbody > tr:nth-of-type(even) {
 
 /* This controls the styling of the banner with planets that tops most tables. */
 div#planets_banner {
-    width: 80%;
+    width: 75%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -260,5 +266,6 @@ td.icon_container {
 /* This formats the small icons when used solely as an image. (ex: sample button)*/
 img#form_icon {
     margin: 5px;
+
 }
 

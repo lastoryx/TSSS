@@ -35,15 +35,15 @@ CREATE TABLE ships(
 	class VARCHAR(255) NOT NULL,
 	type VARCHAR(255) NOT NULL,
 	faction INT,
-	FOREIGN KEY (faction) REFERENCES factions(faction_id)
+	FOREIGN KEY (faction) REFERENCES factions(faction_id) ON DELETE SET NULL
 );
 
 CREATE TABLE people_ships(
 	person_ship_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	passenger INT NOT NULL,
 	ship INT NOT NULL,
-	FOREIGN KEY (passenger) REFERENCES people(person_id),
-	FOREIGN KEY (ship) REFERENCES ships(ship_id)
+	FOREIGN KEY (passenger) REFERENCES people(person_id) ON DELETE CASCADE, 
+	FOREIGN KEY (ship) REFERENCES ships(ship_id) ON DELETE CASCADE
 );
 
 
