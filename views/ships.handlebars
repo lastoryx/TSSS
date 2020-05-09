@@ -1,62 +1,59 @@
-<div id="planets_banner"><img src="planets2.jpg"></div>
-<div class="module">
-    <table>
+<table>
+    <tr>
+        <th colspan="5" class="th_title">{{title}}</th>
+    </tr>
+    <tr>
+        <th class="th_category">Name</th>
+        <th class="th_category">Class</th>
+        <th class="th_category">Type</th>
+        <th class="th_category">Owning Faction</th>
+        <th class="th_category"></th>
+    </tr>
+    <tr>
+
+        <form method="post" id="post_new_ship" class="icon_form">
+            <td><input type="text" id="form_ship_name" name="ship_name" placeholder="USS Enterprise" required></td>
+            <td><input type="text" id="form_ship_class" name="ship_class" placeholder="Constitution" required></td>
+            <td><input type="text" id="form_ship_type" name="ship_type" placeholder="Explorer" required></td>
+
+            <td>
+                <select id="form_factions" name="faction">
+                    {{#each factions}}
+                        <option value="{{faction_id}}">{{name}}</option>
+                    {{/each}}
+                    <option value="NULL" SELECTED>NULL</option>
+                </select>
+            </td>
+
+            <td>
+                <!-- ADD NEW SHIP -->
+                <input type="submit" name="New" value="ADD SHIP">
+
+            </td>
+        </form>
+    </tr>
+
+    {{#each ships}}
+
         <tr>
-            <th colspan="5" class="th_title">{{title}}</th>
+            <td>{{name}}</td>
+            <td>{{class}}</td>
+            <td>{{type}}</td>
+            <td>{{owning_faction}} </td>
+
+            <Td>
+                <!-- UPDATE A SHIP-->
+                <form method="post" id="post_update_ship" class="icon_form">
+                    <input type="hidden" name="ship_id" value="{{ship_id}}">
+                    <input type="submit" name="Edit" value="EDIT">
+                </form>
+
+                <!-- DELETE A SHIP -->
+                <form method="post" id="post_delete_ship" class="icon_form">
+                    <input type="hidden" name="ship_id" value="{{ship_id}}">
+                    <input type="submit" name="Delete" value="&#10060">
+                </form>
+            </td>
         </tr>
-        <tr>
-            <th class="th_category">Name</th>
-            <th class="th_category">Class</th>
-            <th class="th_category">Type</th>
-            <th class="th_category">Owning Faction</th>
-            <th class="th_category"></th>
-        </tr>
-        <tr>
-
-            <form method="post" id="post_new_ship">
-                <td><input type="text" id="form_ship_name" name="ship_name" placeholder="USS Enterprise" required></td>
-                <td><input type="text" id="form_ship_class" name="ship_class" placeholder="Constitution" required></td>
-                <td><input type="text" id="form_ship_type" name="ship_type" placeholder="Explorer" required></td>
-
-                <td>
-                    <select id="form_factions" name="faction">
-                        {{#each factions}}
-                            <option value="{{faction_id}}">{{name}}</option>
-                        {{/each}}
-                        <option value="NULL" SELECTED>NULL</option>
-                    </select>
-                </td>
-
-                <td>
-                    <!-- ADD NEW SHIP -->
-                    <input type="submit" name="New" value="ADD SHIP">
-
-                </td>
-            </form>
-        </tr>
-
-        {{#each ships}}
-
-            <tr>
-                <td>{{name}}</td>
-                <td>{{class}}</td>
-                <td>{{type}}</td>
-                <td>{{owning_faction}} </td>
-
-                <Td>
-                    <!-- UPDATE A SHIP-->
-                    <form method="post" id="post_update_ship" class="icon_form">
-                        <input type="hidden" name="ship_id" value="{{ship_id}}">
-                        <input type="submit" name="Edit" value="EDIT">
-                    </form>
-
-                    <!-- DELETE A SHIP -->
-                    <form method="post" id="post_delete_ship" class="icon_form">
-                        <input type="hidden" name="ship_id" value="{{ship_id}}">
-                        <input type="submit" name="Delete" value="&#10060">
-                    </form>
-                </td>
-            </tr>
-        {{/each}}
-    </table>
-</div>
+    {{/each}}
+</table>

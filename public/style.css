@@ -172,6 +172,14 @@ div.module {
     border-radius: 10px 10px 10px 10px;
 }
 
+/* This controls the styling of the banner with planets that tops most tables. */
+div#planets_banner {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 /* This controls text card's weird border. */
 div.module_inner_border {
     padding: 30px;
@@ -235,12 +243,6 @@ tbody > tr:nth-of-type(even) {
     color: #f2f2f2;
 }
 
-/* This controls the styling of the banner with planets that tops most tables. */
-div#planets_banner {
-    width: 75%;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 /* This controls the styling of the banner with the various factions. */
 div#factions_banner {
@@ -269,3 +271,6 @@ img#form_icon {
 
 }
 
+input{
+    display: inline;
+}

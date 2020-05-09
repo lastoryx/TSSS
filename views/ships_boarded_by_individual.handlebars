@@ -1,37 +1,33 @@
-<div id="planets_banner"><img src="planets2.jpg"></div>
-<div class="module">
-
-    <form method="post" id="post_search">
-        <table>
-            <tr>
-                <th class="th_category" style="width:10%"><br></th>
-                <th class="th_category">
-                    <label for="form_name">Search Ships Boarded by Individual: </label>
-                </th>
-                <th class="th_category">
-                    <select id="available_people" name="person_to_search_for">
-                        {{#each x}}
-                            <option value="{{person_id}}" selected>{{first_name}} {{last_name}}</option>
-                        {{/each}}
-                    </select>
-                </th>
-                <th class="th_category">
-                    <img src="icon_search.png" class="icon">
-                   <!-- <input name="Search" src="icon_search.png" type="image" value="Retrieve Ships Boarded"
-                           class="icon"> -->
-                </th>
-                <th class="th_category" style="width:10%"><br></th>
-            </tr>
-        </table>
-    </form>
-
-    {{#if display}}
+<form method="post" id="post_search">
+    <table>
         <tr>
-            <th>
-                <span>You searched for {{first_name}} {{last_name}}</span>.
+            <th class="th_category" style="width:10%"><br></th>
+            <th class="th_category">
+                <label for="form_name">Search Ships Boarded by Individual: </label>
             </th>
+            <th class="th_category">
+                <select id="available_people" name="person_to_search_for">
+                    {{#each x}}
+                        <option value="{{person_id}}" selected>{{first_name}} {{last_name}}</option>
+                    {{/each}}
+                </select>
+            </th>
+            <th class="th_category">
+                <img src="icon_search.png" class="icon">
+                <!-- <input name="Search" src="icon_search.png" type="image" value="Retrieve Ships Boarded"
+                        class="icon"> -->
+            </th>
+            <th class="th_category" style="width:10%"><br></th>
         </tr>
-    {{/if}}
-
     </table>
-</div>
+</form>
+
+{{#if display}}
+    <tr>
+        <th>
+            <span>You searched for {{first_name}} {{last_name}}</span>.
+        </th>
+    </tr>
+{{/if}}
+
+</table>

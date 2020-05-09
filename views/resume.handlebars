@@ -1,19 +1,17 @@
-<div id="planets_banner"><img src="planets2.jpg"></div>
-<div class="module">
-    {{#if count}}
-        <table>
+{{#if count}}
+    <table>
+        <tr>
+            <th colspan="{{columns}}" class="th_title">{{title}}</th>
+        </tr>
+        <tr>
+            <th class="th_category">Person</th>
+            <th class="th_category">Skill</th>
+        </tr>
+        {{#each x}}
             <tr>
-                <th colspan="{{columns}}" class="th_title">{{title}}</th>
+                <td>{{first_name}} {{last_name}}</td>
+                <td>{{name}}</td>
             </tr>
-            <tr>
-                <th class="th_category">Person</th>
-                <th class="th_category">Skill</th>
-            </tr>
-            {{#each x}}
-                <tr>  <td>{{first_name}} {{last_name}}</td>
-                    <td>{{name}}</td>
-                </tr>
-            {{/each}}
-        </table>
-    {{/if}}
-</div>
+        {{/each}}
+    </table>
+{{/if}}

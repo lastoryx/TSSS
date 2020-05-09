@@ -1,96 +1,93 @@
-<div id="planets_banner"><img src="planets2.jpg"></div>
-<div class="module">
+<table>
+
+    <form method="post" id="post_search">
+        <tr>
+            <th class="th_category" style="width:10%"><br></th>
+            <th class="th_category">
+                <label for="post_search">Search for Passenger Manifest by Ship: </label>
+            </th>
+            <th class="th_category">
+                <select id="available_ships" name="ship_to_search_for">
+                    {{#each ship_search}}
+                        <option value="{{ship_id}}" selected>{{name}}</option>
+                    {{/each}}
+                </select>
+            </th>
+            <th class="th_category">
+                <!-- SEARCH FOR A SHIP -->
+                <input type="submit" name="Search" value="&#128269">
+            </th>
+            <th class="th_category" style="width:10%"><br></th>
+        </tr>
+    </form>
+
+</table>
+
+{{#if display}}
+    <div style="margin: 20px"></div>
+    <table>
+        <tr>
+            <th colspan="5" class="th_title">Passenger Manifest for the {{ship_name}}</th>
+        </tr>
+
+        {{#if data}}
+            <tr>
+                <th class="th_category">Name</th>
+                <th class="th_category">Designation</th>
+                <th class="th_category">Political Affiliation</th>
+                <th class="th_category">Status</th>
+                <th class="th_category"></th>
+            </tr>
+            {{#each passenger}}
+                <tr>
+                    <td>{{first_name}} {{last_name}}</td>
+                    <td>{{designation}}</td>
+                    <td>{{faction_name}}</td>
+                    <td>{{status}}</td>
+
+                    <!-- REMOVE PASSENGER -->
+                    <Td>
+                        <form method="post" id="post_remove_passenger" class="icon_form">
+                            <input type="hidden" name="person_id" value="{{person_id}}">
+                            <input type="hidden" name="ship_id" value="{{ship_id}}">
+                            <input type="submit" name="Remove" value="REMOVE"></form>
+                    </td>
+                </tr>
+            {{/each}}
+
+        {{else}}
+            <td colspan="5">0 Passengers</td>
+        {{/if}}
+
+    </table>
+
+    <div style="margin: 10px"></div>
     <table>
 
-        <form method="post" id="post_search">
+        <form method="post" id="add_new_passenger">
             <tr>
                 <th class="th_category" style="width:10%"><br></th>
                 <th class="th_category">
-                    <label for="post_search">Search for Passenger Manifest by Ship: </label>
+                    <label for="post_search">Add Passenger to the {{ship_name}} </label>
                 </th>
                 <th class="th_category">
-                    <select id="available_ships" name="ship_to_search_for">
-                        {{#each ship_search}}
-                            <option value="{{ship_id}}" selected>{{name}}</option>
+                    <select id="available_ships" name="person_to_add">
+                        {{#each notAboard}}
+                            <option value="{{person_id}}" selected>{{first_name}} {{last_name}}</option>
                         {{/each}}
                     </select>
                 </th>
                 <th class="th_category">
-                    <!-- SEARCH FOR A SHIP -->
-                    <input type="submit" name="Search" value="&#128269">
+                    <!-- ADD PASSENGER -->
+                    <input type="hidden" name="ship_id" value="{{ship_manifest}}">
+                    <input type="submit" name="Add" value="ADD PASSENGER">
                 </th>
                 <th class="th_category" style="width:10%"><br></th>
             </tr>
         </form>
 
     </table>
+{{/if}}
 
-    {{#if display}}
-        <div style="margin: 20px"></div>
-        <table>
-            <tr>
-                <th colspan="5" class="th_title">Passenger Manifest for the {{ship_name}}</th>
-            </tr>
-
-            {{#if data}}
-                <tr>
-                    <th class="th_category">Name</th>
-                    <th class="th_category">Designation</th>
-                    <th class="th_category">Political Affiliation</th>
-                    <th class="th_category">Status</th>
-                    <th class="th_category"></th>
-                </tr>
-                {{#each passenger}}
-                    <tr>
-                        <td>{{first_name}} {{last_name}}</td>
-                        <td>{{designation}}</td>
-                        <td>{{faction_name}}</td>
-                        <td>{{status}}</td>
-
-                        <!-- REMOVE PASSENGER -->
-                        <Td>
-                            <form method="post" id="post_remove_passenger" class="icon_form">
-                                <input type="hidden" name="person_id" value="{{person_id}}">
-                                <input type="hidden" name="ship_id" value="{{ship_id}}">
-                                <input type="submit" name="Remove" value="REMOVE"></form>
-                        </td>
-                    </tr>
-                {{/each}}
-
-            {{else}}
-                <td colspan="5">0 Passengers</td>
-            {{/if}}
-
-        </table>
-
-        <div style="margin: 10px"></div>
-        <table>
-
-            <form method="post" id="add_new_passenger">
-                <tr>
-                    <th class="th_category" style="width:10%"><br></th>
-                    <th class="th_category">
-                        <label for="post_search">Add Passenger to the {{ship_name}} </label>
-                    </th>
-                    <th class="th_category">
-                        <select id="available_ships" name="person_to_add">
-                            {{#each notAboard}}
-                                <option value="{{person_id}}" selected>{{first_name}} {{last_name}}</option>
-                            {{/each}}
-                        </select>
-                    </th>
-                    <th class="th_category">
-                        <!-- ADD PASSENGER -->
-                        <input type="hidden" name="ship_id" value="{{ship_manifest}}">
-                        <input type="submit" name="Add" value="ADD PASSENGER">
-                    </th>
-                    <th class="th_category" style="width:10%"><br></th>
-                </tr>
-            </form>
-
-        </table>
-    {{/if}}
-
-</div>
 
 
