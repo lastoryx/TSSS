@@ -1,33 +1,90 @@
-<form method="post" id="post_search">
-    <table>
+<table>
+    <form method="post" id="post_search">
         <tr>
-            <th class="th_category" style="width:10%"><br></th>
+            <th class="th_category_spacer"><br></th>
             <th class="th_category">
-                <label for="form_name">Search Ships Boarded by Individual: </label>
+                <label for="post_search">Search for Ships Boarded by Individual: </label>
             </th>
             <th class="th_category">
-                <select id="available_people" name="person_to_search_for">
-                    {{#each x}}
+                <select id="people" name="person_to_search_for">
+                    {{#each person_search}}
                         <option value="{{person_id}}" selected>{{first_name}} {{last_name}}</option>
                     {{/each}}
                 </select>
             </th>
             <th class="th_category">
-                <img src="icon_search.png" class="icon">
-                <!-- <input name="Search" src="icon_search.png" type="image" value="Retrieve Ships Boarded"
-                        class="icon"> -->
+                <!-- SEARCH FOR A PERSON -->
+                <input type="submit" name="Search" value="&#128269">
             </th>
-            <th class="th_category" style="width:10%"><br></th>
+            <th class="th_category_spacer"><br></th>
         </tr>
-    </table>
-</form>
-
-{{#if display}}
-    <tr>
-        <th>
-            <span>You searched for {{first_name}} {{last_name}}</span>.
-        </th>
-    </tr>
-{{/if}}
+    </form>
 
 </table>
+
+{{#if display}}
+    <div class="table_spacer_wide"></div>
+    <table>
+        <tr>
+            <th colspan="5" class="th_title">Ships Boarded by {{first_name}} {{last_name}}</th>
+        </tr>
+
+        {{#if data}}
+            <tr>
+                <th class="th_category">Name</th>
+                <th class="th_category">Class</th>
+                <th class="th_category">Type</th>
+                <th class="th_category">Faction</th>
+                <th class="th_category"></th>
+            </tr>
+            {{#each boarded_ship}}
+                <tr>
+                    <td>{{ship_name}}</td>
+                    <td>{{class}}</td>
+                    <td>{{type}}</td>
+                    <td>{{faction_name}}</td>
+
+                    <!-- REMOVE PASSENGER -->
+                    <Td>
+                        <form method="post" id="post_remove_boarded_ship" class="icon_form">
+                            <input type="hidden" name="person_id" value="{{person_id}}">
+                            <input type="hidden" name="ship_id" value="{{ship_id}}">
+                            <input type="submit" name="Remove" value="REMOVE"></form>
+                    </td>
+                </tr>
+            {{/each}}
+
+        {{else}}
+            <td colspan="5">0 Ships</td>
+        {{/if}}
+
+    </table>
+    {{#if notAboard}}
+        <div class="table_spacer_narrow"></div>
+        <table>
+            <form method="post" id="add_new_passenger">
+                <tr>
+                    <th class="th_category_spacer"><br></th>
+                    <th class="th_category">
+                        <label for="post_search">Add Ship to {{first_name}} {{last_name}}: </label>
+                    </th>
+                    <th class="th_category">
+                        <select id="available_ships" name="ship_to_add">
+                            {{#each notAboard}}
+                                <option value="{{ship_id}}" selected>{{ship_name}}</option>
+                            {{/each}}
+                        </select>
+                    </th>
+                    <th class="th_category">
+                        <!-- ADD PASSENGER -->
+                        <input type="hidden" name="person_id" value="{{target_person}}">
+                        <input type="submit" name="Add" value="ADD SHIP">
+                    </th>
+                    <th class="th_category_spacer"><br></th>
+                </tr>
+            </form>
+        </table>
+    {{/if}}
+{{/if}}
+
+
