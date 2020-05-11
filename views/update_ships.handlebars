@@ -19,7 +19,7 @@
             <td>
                 <select id="form_factions" name="faction">
                     <option value="{{faction_id}}" selected>{{faction_name}}</option>
-                    <option disabled>----------------------------</option>
+                    <option disabled>---------</option>
                     {{#each all_factions}}
                         <option value="{{faction_id}}">{{name}}</option>
                     {{/each}}
@@ -42,7 +42,6 @@
         <th colspan="5" class="th_title">Passenger Manifest for the {{name}}</th>
     </tr>
 
-    {{#if data}}
         <tr>
             <th class="th_category">Name</th>
             <th class="th_category">Designation</th>
@@ -50,56 +49,56 @@
             <th class="th_category">Status</th>
             <th class="th_category"></th>
         </tr>
-        {{#each known_passengers}}
-            <tr>
-                <td>{{first_name}} {{last_name}}</td>
-                <td>{{designation}}</td>
-                <td>{{faction_name}}</td>
-                <td>{{status}}</td>
 
-                <!-- REMOVE PASSENGER -->
-                <Td>
-                    <form method="post" id="post_remove_passenger" class="icon_form">
-                        <input type="hidden" name="person_id" value="{{person_id}}">
-                        <input type="hidden" name="ship_id" value="{{ship_id}}">
-                        <input type="submit" name="Remove people_ships from Edit Ships" value="REMOVE"></form>
-                </td>
-            </tr>
+    {{#if known_passengers}}
+        {{#each known_passengers}}
+                <tr>
+                    <td>{{first_name}} {{last_name}}</td>
+                    <td>{{designation}}</td>
+                    <td>{{faction_name}}</td>
+                    <td>{{status}}</td>
+
+                    <!-- REMOVE PASSENGER -->
+                    <Td>
+                        <form method="post" id="post_remove_passenger" class="icon_form">
+                            <input type="hidden" name="person_id" value="{{person_id}}">
+                            <input type="hidden" name="ship_id" value="{{ship_id}}">
+                            <input type="submit" name="Remove people_ships from Edit Ships" value="REMOVE"></form>
+                    </td>
+                </tr>
         {{/each}}
 
     {{else}}
-        <td colspan="5">0 Passengers</td>
+        <tr><td colspan="5"><span>0 Passengers</span></td></tr>
     {{/if}}
 
-</table>
-
-
-{{#if notAboard}}
-    <div class="table_spacer_narrow"></div>
-    <table>
-        <form method="post" id="add_new_passenger">
-            <tr>
-                <th class="th_category_spacer"><br></th>
-                <th class="th_category">
-                    <label for="post_search">Add Passenger to {{name}}: </label>
-                </th>
-                <th class="th_category">
-                    <select id="available_ships" name="passenger_to_add">
-                        {{#each notAboard}}
-                            <option value="{{person_id}}" selected>{{first_name}} {{last_name}}</option>
-                        {{/each}}
-                    </select>
-                </th>
-                <th class="th_category">
-                    <!-- ADD PASSENGER -->
-                    <input type="hidden" name="ship_id" value="{{target_ship}}">
-                    <input type="submit" name="Add people_ships to Edit Ships" value="ADD PASSENGER">
-                </th>
-                <th class="th_category_spacer"><br></th>
-            </tr>
-        </form>
     </table>
-{{/if}}
 
 
+    {{#if notAboard}}
+        <div class="table_spacer_narrow"></div>
+        <table>
+            <form method="post" id="add_new_passenger">
+                <tr>
+                    <th class="th_category_spacer"><br></th>
+                    <th class="th_category">
+                        <label for="post_search">Add Passenger to {{name}}: </label>
+                    </th>
+                    <th class="th_category">
+                        <select id="available_ships" name="passenger_to_add">
+                            {{#each notAboard}}
+                                <option value="{{person_id}}" selected>{{first_name}} {{last_name}}</option>
+                            {{/each}}
+                        </select>
+                    </th>
+                    <th class="th_category">
+                        <!-- ADD PASSENGER -->
+                        <input type="hidden" name="ship_id" value="{{target_ship}}">
+                        <input type="submit" name="Add people_ships to Edit Ships" value="ADD PASSENGER">
+                    </th>
+                    <th class="th_category_spacer"><br></th>
+                </tr>
+            </form>
+        </table>
+    {{/if}}
 
