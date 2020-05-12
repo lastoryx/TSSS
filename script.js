@@ -525,7 +525,7 @@ function renderPeople(res, next, context) {
             }
             context.factions = result;
 
-            xData.pool.query('SELECT people.person_id, people.first_name, people.last_name, worlds.world_id, worlds.name AS homeworld, factions.faction_id, factions.acronym AS faction, people.living FROM people LEFT JOIN factions ON people.faction=factions.faction_id INNER JOIN worlds ON people.homeworld=worlds.world_id ORDER BY people.last_name', function (err, result) {
+            xData.pool.query('SELECT people.person_id, people.first_name, people.last_name, worlds.world_id, worlds.name AS homeworld, factions.faction_id, factions.name AS faction, people.living FROM people LEFT JOIN factions ON people.faction=factions.faction_id INNER JOIN worlds ON people.homeworld=worlds.world_id ORDER BY people.last_name', function (err, result) {
                 /* Skips to the 500 page if an error is returned.*/
                 if (err) {
                     next(err);
@@ -821,7 +821,7 @@ function renderShips(res, next, context) {
             }
         }
 
-        xData.pool.query('SELECT factions.faction_id, factions.name FROM factions', function (err, result) {
+        xData.pool.query('SELECT factions.faction_id, factions.acronym AS name FROM factions', function (err, result) {
             /* Skips to the 500 page if an error is returned.*/
             if (err) {
                 next(err);

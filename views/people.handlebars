@@ -1,19 +1,21 @@
 <table>
     <tr>
-        <th colspan="5" class="th_title">{{title}}</th>
+        <th colspan="6" class="th_title">{{title}}</th>
     </tr>
     <tr>
-        <th class="th_category">Name</th>
+        <th class="th_category" colspan="2">Name</th>
         <th class="th_category">Birth World</th>
-        <th class="th_category">Political Affiliation</th>
+        <th class="th_category">Faction</th>
         <th class="th_category">Status</th>
         <th class="th_category"></th>
     </tr>
     <tr>
 
         <form method="post" id="post_new_person">
-            <td><input type="text" id="form_person_first" name="first_name" placeholder="James T." required>
-                <input type="text" id="form_person_last" name="last_name" placeholder="Kirk" required>
+            <td><input type="text" id="form_person_first" name="first_name" class="medium" placeholder="James T."
+                       required></td>
+            <td><input type="text" id="form_person_last" name="last_name" class="medium" placeholder="Kirk" required>
+            </td>
 
             </td>
 
@@ -46,7 +48,7 @@
 
             <td>
                 <!-- ADD NEW PERSON -->
-                <input type="submit" name="New" value="ADD PERSON">
+                <input type="submit" name="New" value="ADD">
 
             </td>
         </form>
@@ -55,7 +57,8 @@
     {{#each person}}
 
         <tr>
-            <td>{{first_name}} {{last_name}}</td>
+            <td colspan="2">{{first_name}}
+                {{last_name}}</td>
             <td>{{homeworld}}</td>
             <td>
                 {{#if faction}}
@@ -67,7 +70,7 @@
             {{else}} Dead
             {{/if}}</td>
 
-            <Td>
+            <td class="buttons">
                 <!-- UPDATE A PERSON-->
                 <form method="post" id="post_update_person" class="icon_form">
                     <input type="hidden" name="person_id" value="{{person_id}}">

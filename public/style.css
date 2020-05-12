@@ -229,7 +229,7 @@ th.th_category_spacer {
     width: 10%;
 }
 
-form.icon_form{
+form.icon_form {
     display: inline;
     margin: 0px;
     padding: 0px;
@@ -277,14 +277,34 @@ img#form_icon {
 
 }
 
-input{
+input {
     display: inline;
 }
 
-div.table_spacer_wide{
+div.table_spacer_wide {
     margin: 20px;
 }
 
-div.table_spacer_narrow{
+div.table_spacer_narrow {
     margin: 10px;
+}
+
+input[type=text] {
+    width: 17ch;
+}
+
+input[type=text].medium {
+    width: 12ch;
+}
+
+input[type=text].small {
+    width: 10ch;
+}
+
+input[type=number] {
+    width: 15ch;
+}
+
+td.buttons {
+    width: 100px;
 }

@@ -1,34 +1,62 @@
-{{#if count}}
-    <table>
+<table>
+    <tr>
+        <th colspan="{{columns}}" class="th_title">{{title}}</th>
+    </tr>
+
+    <tr>
+        <th class="th_category">Name</th>
+        <th class="th_category">Location</th>
+        <th class="th_category">Population</th>
+        <th class="th_category">Governing Body</th>
+        <th class="th_category">Resident<br>Designation</th>
+        <th class="th_category"></th>
+    </tr>
+
+    <tr>
+        <form method="post" id="post_new_world" class="icon_form">
+            <td><input type="text" id="form_world_name" name="world_name"  class="small" placeholder="Ganymede" required></td>
+            <td><input type="text" id="form_world_name" name="world_location" class="small" placeholder="Sol Va" required></td>
+            <td><input type="number" id="form_world_population" name="world_population" value="0" required></td>
+
+            <td><select id="form_factions" name="faction">
+                <option value="">OPA</option>
+                <option value="">MCR</option>
+                <option value="">UN</option>
+                <option value="NULL">NULL</option>
+            </select></td>
+
+            <td><select id="form_designations" name="designation">
+                <option value="">Belter</option>
+                <option value="">Earther</option>
+                <option value="">Martian</option>
+            </select></td>
+
+            <!-- ADD NEW WORLD -->
+            <td><input type="button" name="New" value="ADD"></td>
+        </form>
+    </tr>
+
+    {{#each x}}
         <tr>
-            <th colspan="{{columns}}" class="th_title">{{title}}</th>
+            <td>{{name}}</td>
+            <td>{{location}}</td>
+            <td>{{population}}</td>
+            <td>{{governing_body}}</td>
+            <td>{{resident_designation}}</td>
+
+            <td class="buttons">
+                <!-- UPDATE A WORLD-->
+                <form method="post" id="post_update_world" class="icon_form">
+                    <input type="hidden" name="world_id" value="{{world_id}}">
+                    <input type="button" name="Edit" value="EDIT">
+                </form>
+
+                <!-- DELETE A SKILL -->
+                <form method="post" id="post_delete_world" class="icon_form">
+                    <input type="hidden" name="world_id" value="{{world_id}}">
+                    <input type="button" name="Delete" value="&#10060">
+                </form>
+            </td>
         </tr>
-        <tr>
-            <th class="th_category">Name</th>
-            <th class="th_category">Location</th>
-            <th class="th_category">Population</th>
-            <th class="th_category">Governing Body</th>
-            <th class="th_category">Resident<br>Designation</th>
-
-            <!-- REPLACE WITH FORM FOR ADDING A NEW ELEMENT -->
-            <th class="th_category"><img src="icon_new.png" class="icon"></th>
-        </tr>
-        {{#each x}}
-            <tr>
-                <td>{{name}}</td>
-                <td>{{location}}</td>
-                <td>{{population}}</td>
-                <td>{{governing_body}}</td>
-                <td>{{resident_designation}}</td>
-
-                <!-- REPLACE WITH FORM FOR EDITING/UPDATING ELEMENT -->
-                <td class="icon_container"><img src="icon_edit.png" class="icon"><img src="icon_delete.png"
-                                                                                      class="icon"></td>
-            </tr>
-        {{/each}}
-    </table>
-
-    <!-- If the data set is empty, display an error message. -->
-{{else}}
-    <span><p>It looks like there isn't any data to display.</p></span>
-{{/if}}
+    {{/each}}
+</table>

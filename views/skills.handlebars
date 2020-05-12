@@ -1,26 +1,39 @@
-{{#if count}}
-    <table>
+<table>
+    <tr>
+        <th colspan="2" class="th_title">{{title}}</th>
+    </tr>
+    <tr>
+        <th class="th_category">Description</th>
+        <th class="th_category"></th>
+    </tr>
+
+    <tr>
+        <form method="post" id="post_new_skill" class="icon_form">
+            <td><input type="text" id="form_skill_name" name="skill_name" placeholder="Acrobatics" required></td>
+            <td>
+                <!-- ADD NEW SKILL -->
+                <input type="button" name="New" value="ADD"></td>
+        </form>
+    </tr>
+
+
+    {{#each x}}
         <tr>
-            <th colspan="{{columns}}" class="th_title">{{title}}</th>
+            <td>{{name}}</td>
+
+            <td>
+                <!-- UPDATE A SKILL-->
+                <form method="post" id="post_update_skill" class="icon_form">
+                    <input type="hidden" name="skill_id" value="{{skill_id}}">
+                    <input type="button" name="Edit" value="EDIT">
+                </form>
+
+                <!-- DELETE A SKILL -->
+                <form method="post" id="post_delete_skill" class="icon_form">
+                    <input type="hidden" name="skill_id" value="{{skill_id}}">
+                    <input type="button" name="Delete" value="&#10060">
+                </form>
+            </td>
         </tr>
-        <tr>
-            <th class="th_category">Description</th>
-
-            <!-- REPLACE WITH FORM FOR ADDING A NEW ELEMENT -->
-            <th class="th_category"><img src="icon_new.png" class="icon"></th>
-        </tr>
-        {{#each x}}
-            <tr>
-                <td>{{name}}</td>
-
-                <!-- REPLACE WITH FORM FOR EDITING/UPDATING ELEMENT -->
-                <td class="icon_container"><img src="icon_edit.png" class="icon"><img src="icon_delete.png"
-                                                                                      class="icon"></td>
-            </tr>
-        {{/each}}
-    </table>
-
-    <!-- If the data set is empty, display an error message. -->
-{{else}}
-    <span><p>It looks like there isn't any data to display.</p></span>
-{{/if}}
+    {{/each}}
+</table>
