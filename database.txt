@@ -1,13 +1,14 @@
 -- -------------------------------------------
 -- Create all tables.
 -- -------------------------------------------
-
+DROP TABLE IF EXISTS factions;
 CREATE TABLE factions(
 	faction_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	name VARCHAR(255) NOT NULL,
 	acronym VARCHAR(255) NOT NULL
 );
 
+DROP TABLE IF EXISTS worlds;
 CREATE TABLE worlds(
 	world_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	name VARCHAR(255) UNIQUE NOT NULL,
@@ -15,9 +16,10 @@ CREATE TABLE worlds(
 	population BIGINT NOT NULL,
 	faction INT,
 	designation VARCHAR(255),
-	FOREIGN KEY (faction) REFERENCES factions(faction_id)
+	FOREIGN KEY (faction) REFERENCES factions(faction_id) ON DELETE SET NULL
 );
 
+DROP TABLE IF EXISTS people;
 CREATE TABLE people(
 	person_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	first_name VARCHAR(255) NOT NULL,
@@ -26,9 +28,10 @@ CREATE TABLE people(
 	faction INT,
 	living BOOLEAN NOT NULL,
 	FOREIGN KEY (homeworld) REFERENCES worlds(world_id),
-	FOREIGN KEY (faction) REFERENCES factions(faction_id)
+	FOREIGN KEY (faction) REFERENCES factions(faction_id) ON DELETE SET NULL
 );
 
+DROP TABLE IF EXISTS ships;
 CREATE TABLE ships(
 	ship_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	name VARCHAR(255) NOT NULL UNIQUE,
@@ -38,6 +41,7 @@ CREATE TABLE ships(
 	FOREIGN KEY (faction) REFERENCES factions(faction_id) ON DELETE SET NULL
 );
 
+DROP TABLE IF EXISTS people_ships;
 CREATE TABLE people_ships(
 	person_ship_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	passenger INT NOT NULL,
@@ -46,13 +50,13 @@ CREATE TABLE people_ships(
 	FOREIGN KEY (ship) REFERENCES ships(ship_id) ON DELETE CASCADE
 );
 
-
+DROP TABLE IF EXISTS skills;
 CREATE TABLE skills(
 	skill_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	name VARCHAR(255) NOT NULL
 );
 
-
+DROP TABLE IF EXISTS people_skills;
 CREATE TABLE people_skills(
 	person_skill_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
 	individual INT NOT NULL,

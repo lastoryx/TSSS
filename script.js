@@ -9,7 +9,7 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '/public')));
 
 /* Include credentials and return a mySQL pool. */
-let xData = require('./dbconnection.js');
+let xData = require('./dbcon.js');
 
 /* Start express-handlebars. Set the main layout. */
 let handlebars = require('express-handlebars').create({defaultLayout: 'main'});
@@ -422,64 +422,205 @@ app.post('/passengers_by_ship.html', function (req, res, next) {
 /* This GET request handles rendering the initial "Worlds" page. */
 app.get('/worlds.html', function (req, res, next) {
     let context = {};
-    xData.pool.query('SELECT worlds.name, worlds.location, worlds.population, factions.name AS governing_body, worlds.designation AS resident_designation FROM worlds INNER JOIN factions ON worlds.faction=factions.faction_id', function (err, result) {
-        /* Skips to the 500 page if an error is returned.*/
-        if (err) {
-            next(err);
-            return;
-        }
-        context.x = result;
-        context.count = result.length;
-        context.columns = result.length + 1;
-        context.title = "Worlds";
-
-        /* Renders the "Worlds" page.*/
-        res.render('worlds', context);
-    });
+    renderWorlds(res, next, context);
 });
+
+/* This POST request handles all forms submitted to the "Worlds" page. */
+app.post('/worlds.html', function(req, res, next) {
+	let context = {};
+
+    /* NEW: INSERTS a new world into the database. */
+    if (req.body['New']) {
+
+        /* Handles an insert that does not provide a faction*/
+        if (req.body.faction === 'NULL') {
+            xData.pool.query("INSERT INTO worlds(`name`, `location`, `population`, `designation`) VALUES (?, ?, ?, ?)", [req.body.world_name, req.body.world_location, req.body.world_population, req.body.designation], function (err) {
+                if (err) {
+                    next(err);
+                    return;
+                }
+                renderWorlds(res, next, context);
+            });
+
+        } else {
+
+            /* Handles new entry that includes a faction.*/
+            xData.pool.query("INSERT INTO worlds(`name`, `location`, `population`, `faction`, `designation`) VALUES (?, ?, ?, ?, ?)",
+             [req.body.world_name, req.body.world_location, req.body.world_population, req.body.faction, req.body.designation], function (err) {
+                /* Skips to the 500 page is an error is returned.*/
+                if (err) {
+                    next(err);
+                    return;
+                }
+                renderWorlds(res, next, context);
+            });
+        }
+    }
+
+    /* DELETE: DELETES a selected world and refreshes the "Worlds" page.*/
+    if (req.body['Delete']) {
+
+        xData.pool.query("DELETE FROM worlds WHERE worlds.world_id=?", [req.body.world_id], function (err) {
+            /* Skips to the 500 page is an error is returned. */
+            if (err) {
+                next(err);
+                return;
+            }
+
+            renderWorlds(res, next, context);
+        });
+    }
+
+    /* EDIT: SELECTS a world to be edited and renders the "Edit World" page.*/
+    if (req.body['Edit']) {
+
+        context.world_id = req.body.world_id;
+
+        renderUpdateWorld(res, next, context);
+    }
+
+    /* SAVE: UPDATES a selected world's data and loads the "Worlds" page.*/
+    if (req.body['Save']) {
+
+        if (!req.body.faction) {
+            req.body.faction = null;
+        }
+
+        xData.pool.query("UPDATE worlds SET worlds.name= ?, worlds.location=?, worlds.population=?, worlds.faction=?, worlds.designation=? WHERE worlds.world_id=?", [req.body.world_name, req.body.world_location, req.body.world_population, req.body.faction, req.body.designation, req.body.world_id], function (err) {
+            /* Skips to the 500 page is an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            renderWorlds(res, next, context);
+        });
+	};
+});
+
+
 
 
 /* This GET request handles rendering the initial "Factions" page. */
 app.get('/factions.html', function (req, res, next) {
     let context = {};
-    xData.pool.query('SELECT factions.name, factions.acronym FROM factions ORDER BY factions.name', function (err, result) {
-        /* Skips to the 500 page if an error is returned.*/
-        if (err) {
-            next(err);
-            return;
+    renderFactions(res, next, context);
+});
+
+/* This POST request handles all forms submitted to the "Factions" page. */
+app.post('/factions.html', function(req, res, next) {
+    let context = {};
+
+    /* NEW: INSERTS a new faction into the database. */
+    if (req.body['New']) {
+        xData.pool.query("INSERT INTO factions(`name`, `acronym`) VALUES (?, ?)", [req.body.faction_name, req.body.acronym], function (err) {
+                /* Skips to the 500 page is an error is returned.*/
+                if (err) {
+                    next(err);
+                    return;
+                }
+                renderFactions(res, next, context);
+            });
         }
+  
 
-        /* Stores the results from the form.*/
-        context.x = result;
-        context.count = result.length;
-        context.columns = result.length + 1;
-        context.title = "Factions and Political Organizations";
+    /* DELETE: DELETES a faction and refreshes the "Factions" page.*/
+    if (req.body['Delete']) {
+        xData.pool.query("DELETE FROM factions WHERE factions.faction_id=?", [req.body.faction_id], function (err) {
+            /* Skips to the 500 page is an error is returned. */
+            if (err) {
+                next(err);
+                return;
+            }
 
-        res.render('factions', context);
-    });
+            /* Render the ship page. */
+            renderFactions(res, next, context);
+        });
+    }
+
+    /* EDIT: SELECTS a person to be edited and renders the "Edit Profile" page.*/
+    if (req.body['Edit']) {
+        context.faction_id = req.body.faction_id;
+
+        renderUpdateFactions(res, next, context);
+    }
+
+    /* SAVE: UPDATES a the selected world's data and loads the "Worlds" page.*/
+    if (req.body['Save']) {
+
+        xData.pool.query("UPDATE factions SET factions.name= ?, factions.acronym =? WHERE factions.faction_id=?", [req.body.name, req.body.acronym, req.body.faction_id], function (err) {
+            /* Skips to the 500 page is an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            renderFactions(res, next, context);
+        });
+    };
+
 });
 
 
 /* This GET request handles loading the initial "Skills" page. */
 app.get('/skills.html', function (req, res, next) {
     let context = {};
-    xData.pool.query('SELECT skills.name FROM skills ORDER BY skills.name', function (err, result) {
-        /* Skips to the 500 page if an error is returned.*/
-        if (err) {
-            next(err);
-            return;
-        }
-
-        /* Stores the results from the form.*/
-        context.x = result;
-        context.count = result.length;
-        context.columns = result.length + 1;
-        context.title = "Skills & Qualifications";
-
-        res.render('skills', context);
-    });
+    renderSkills(res, next, context);
 });
 
+
+/* This POST request handles all forms submitted to the "Skills" page. */
+app.post('/skills.html', function(req, res, next) {
+    let context = {};
+
+    /* NEW: INSERTS a new skill into the database. */
+    if (req.body['New']) {
+       xData.pool.query("INSERT INTO skills(`name`) VALUES (?)", [req.body.skill_name], function (err) {
+                /* Skips to the 500 page is an error is returned.*/
+                if (err) {
+                    next(err);
+                    return;
+                }
+                renderSkills(res, next, context);
+            });
+        }
+  
+
+    /* DELETE: DELETES a selected skill and refreshes the "Skills" page.*/
+    if (req.body['Delete']) {
+        xData.pool.query("DELETE FROM skills WHERE skills.skill_id=?", [req.body.skill_id], function (err) {
+            /* Skips to the 500 page is an error is returned. */
+            if (err) {
+                next(err);
+                return;
+            }
+
+            renderSkills(res, next, context);
+        });
+    }
+
+    /* EDIT: SELECTS a skill to be edited and renders the "Edit Skills" page.*/
+    if (req.body['Edit']) {
+        context.skill_id = req.body.skill_id;
+
+        renderUpdateSkills(res, next, context);
+    }
+
+    /* SAVE: UPDATES a the skill's data and loads the "Skills" page.*/
+    if (req.body['Save']) {
+
+        xData.pool.query("UPDATE skills SET skills.name= ? WHERE skills.skill_id=?", [req.body.skill_name, req.body.skill_id], function (err) {
+            /* Skips to the 500 page is an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+
+            renderSkills(res, next, context);
+        });
+    };
+
+});
 
 /* Create a 500 page. */
 app.use(function (err, req, res, next) {
@@ -931,3 +1072,146 @@ function renderPassengersByShip(res, next, context) {
         }
     });
 }
+
+function renderWorlds(res, next, context) {
+    xData.pool.query("SELECT worlds.world_id, worlds.name, worlds.location, worlds.population, factions.name AS governing_body, worlds.designation AS resident_designation FROM worlds LEFT JOIN factions ON worlds.faction=factions.faction_id", function (err, result) {
+        /* Skips to the 500 page if an error is returned.*/
+        if (err) {
+            next(err);
+            return;
+        }
+
+        context.x = result;
+        context.count = result.length;
+        context.columns = result.length + 1;
+        context.title = "Worlds";
+
+       for (let i in context.x) {
+            if (!context.x[i].governing_body) {
+                context.x[i].governing_body = "NULL";
+            }
+        }
+
+        xData.pool.query('SELECT factions.faction_id, factions.acronym FROM factions', function (err, result) {
+            /* Skips to the 500 page if an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+            
+        context.factions = result;
+        res.render('worlds', context);
+        });
+    });
+}
+
+function renderUpdateWorld(res, next, context) {
+	/* Populate the input fields with the previous data */
+    xData.pool.query("SELECT worlds.world_id, worlds.name, worlds.location, worlds.population, factions.faction_id, factions.name AS faction_name FROM worlds LEFT JOIN factions ON worlds.faction=factions.faction_id WHERE worlds.world_id=?", [context.world_id], function (err, result) {
+        /* Skips to the 500 page if an error is returned.*/
+        if (err) {
+            next(err);
+            return;
+        }
+
+        /* Stores information needed for the "Edit World" page.*/
+        context.title = "Edit World";
+        context.world_id = result[0].world_id;
+        context.name = result[0].name;
+        context.location = result[0].location;
+        context.population = result[0].population;        
+        context.designation = result[0].designation;
+
+        if (!result[0].faction_name) {
+            context.faction_name = 'NULL';
+            context.faction_id = '';
+        } else {
+            context.faction_name = result[0].faction_name;
+            context.faction_id = result[0].faction_id;
+        }
+
+        /* Selects all the factions from the faction table - this will populate the selection items.*/
+        xData.pool.query("SELECT factions.faction_id, factions.name FROM factions", function (err, result) {
+            /* Skips to the 500 page if an error is returned.*/
+            if (err) {
+                next(err);
+                return;
+            }
+            context.all_factions = result;
+ 
+            res.render('update_worlds', context);
+            });
+    });
+           
+}
+
+
+function renderFactions(res, next, context) {
+    xData.pool.query("SELECT factions.faction_id, factions.name, factions.acronym FROM factions ORDER BY factions.name", function (err, result) {
+        /* Skips to the 500 page if an error is returned.*/
+        if (err) {
+            next(err);
+            return;
+        }
+
+        context.x = result;
+        context.count = result.length;
+        context.columns = result.length + 1;
+        context.title = "Factions and Political Organizations";
+
+        res.render('factions', context);
+        });
+}
+
+function renderUpdateFactions(res, next, context) {
+	/* Populate the input fields with the previous data */
+    xData.pool.query("SELECT factions.faction_id, factions.name, factions.acronym FROM factions WHERE factions.faction_id=?", [context.faction_id], function (err, result) {
+        /* Skips to the 500 page if an error is returned.*/
+        if (err) {
+            next(err);
+            return;
+        }
+
+        /* Stores information needed for the "Edit faction" page.*/
+        context.title = "Edit Faction";
+        context.faction_id = result[0].faction_id;
+        context.name = result[0].name;
+        context.acronym = result[0].acronym;
+
+        res.render('update_factions', context);
+    });
+}
+
+function renderSkills(res, next, context) {
+    xData.pool.query("SELECT skills.skill_id, skills.name FROM skills ORDER BY skills.name", function (err, result) {
+        /* Skips to the 500 page if an error is returned.*/
+        if (err) {
+            next(err);
+            return;
+        }
+
+        context.x = result;
+        context.count = result.length;
+        context.columns = result.length + 1;
+        context.title = "Skills & Qualifications";
+
+        res.render('skills', context);
+        });
+}
+
+function renderUpdateSkills(res, next, context) {
+	/* Populate  the input fields with the previous data*/
+    xData.pool.query("SELECT skills.skill_id, skills.name FROM skills WHERE skills.skill_id=?", [context.skill_id], function (err, result) {
+        /* Skips to the 500 page if an error is returned.*/
+        if (err) {
+            next(err);
+            return;
+        }
+        context.title = "Edit Skills";
+        context.skill_id = result[0].skill_id;
+        context.name = result[0].name;
+
+        res.render('update_skills', context);
+    });
+}
+           
