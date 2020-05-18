@@ -18,21 +18,20 @@
             <td><input type="text" id="form_world_name" name="world_location" class="small" placeholder="Sol Va" required></td>
             <td><input type="number" id="form_world_population" name="world_population" value="0" required></td>
 
-            <td><select id="form_factions" name="faction">
-                <option value="">OPA</option>
-                <option value="">MCR</option>
-                <option value="">UN</option>
-                <option value="NULL">NULL</option>
-            </select></td>
+            
+            <td>
+                <select id="form_factions" name="faction">
+                    {{#each factions}}
+                        <option value="{{faction_id}}">{{acronym}}</option>
+                    {{/each}}
+                    <option value="NULL" SELECTED>NULL</option>
+                </select>
+            </td>
 
-            <td><select id="form_designations" name="designation">
-                <option value="">Belter</option>
-                <option value="">Earther</option>
-                <option value="">Martian</option>
-            </select></td>
+            <td><input type="text" id="form_designation" name="designation" value="Belter" required></td>
 
             <!-- ADD NEW WORLD -->
-            <td><input type="button" name="New" value="ADD"></td>
+            <td><input type="submit" name="New" value="ADD"></td>
         </form>
     </tr>
 
@@ -48,13 +47,13 @@
                 <!-- UPDATE A WORLD-->
                 <form method="post" id="post_update_world" class="icon_form">
                     <input type="hidden" name="world_id" value="{{world_id}}">
-                    <input type="button" name="Edit" value="EDIT">
+                    <input type="submit" name="Edit" value="EDIT">
                 </form>
 
                 <!-- DELETE A SKILL -->
                 <form method="post" id="post_delete_world" class="icon_form">
                     <input type="hidden" name="world_id" value="{{world_id}}">
-                    <input type="button" name="Delete" value="&#10060">
+                    <input type="submit" name="Delete" value="&#10060">
                 </form>
             </td>
         </tr>

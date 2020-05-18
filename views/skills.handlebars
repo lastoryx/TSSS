@@ -12,7 +12,7 @@
             <td><input type="text" id="form_skill_name" name="skill_name" placeholder="Acrobatics" required></td>
             <td>
                 <!-- ADD NEW SKILL -->
-                <input type="button" name="New" value="ADD"></td>
+                <input type="submit" name="New" value="ADD"></td>
         </form>
     </tr>
 
@@ -25,13 +25,13 @@
                 <!-- UPDATE A SKILL-->
                 <form method="post" id="post_update_skill" class="icon_form">
                     <input type="hidden" name="skill_id" value="{{skill_id}}">
-                    <input type="button" name="Edit" value="EDIT">
+                    <input type="submit" name="Edit" value="EDIT">
                 </form>
 
                 <!-- DELETE A SKILL -->
                 <form method="post" id="post_delete_skill" class="icon_form">
                     <input type="hidden" name="skill_id" value="{{skill_id}}">
-                    <input type="button" name="Delete" value="&#10060">
+                    <input type="submit" name="Delete" value="&#10060">
                 </form>
             </td>
         </tr>

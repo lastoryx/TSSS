@@ -1,0 +1,42 @@
+<table>
+    <tr>
+        <th colspan="6" class="th_title">{{title}}</th>
+    </tr>
+
+    <tr>
+        <th class="th_category">Name</th>
+        <th class="th_category">Location</th>
+        <th class="th_category">Population</th>
+        <th class="th_category">Governing Body</th>
+        <th class="th_category">Resident<br>Designation</th>
+        <th class="th_category"></th>
+    </tr>
+    <tr>
+        <form method="post" id="form_edit_world">
+            <td><input type="text" id="form_edit_world_name" name="world_name" value="{{name}}" required></Td>
+            <td> <input type="text" id="form_edit_world_location" name="world_location" value="{{location}}" required></td>
+            <td> <input type="text" id="form_edit_world_population" name="world_population" value="{{population}}" required></td>
+            <td>
+                <select id="form_factions" name="faction">
+                    <option value="{{faction_id}}" selected>{{faction_name}}</option>
+                    <option disabled>---------</option>
+                    {{#each all_factions}}
+                        <option value="{{faction_id}}">{{name}}</option>
+                    {{/each}}
+                    <option value="">NULL</option>
+                </select>
+            </td>
+
+            <td><input type="text" id="form_designation" name="designation" value="Belter" required></td>
+
+
+            <td>
+                <!-- UPDATE EDITED SHIP -->
+                <input type="hidden" name="world_id" value="{{world_id}}">
+                <input type="submit" name="Save" value="SAVE">
+
+            </td>
+        </form>
+    </tr>
+</table>
+

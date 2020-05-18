@@ -15,7 +15,7 @@
             <td><input type="text" id="form_faction_acronym" name="acronym" placeholder="SF" required></td>
             <td>
                 <!-- ADD NEW FACTION -->
-                <input type="button" name="New" value="ADD"></td>
+                <input type="submit" name="New" value="ADD"></td>
         </form>
     </tr>
 
@@ -30,13 +30,13 @@
                 <!-- UPDATE A SKILL-->
                 <form method="post" id="post_update_faction" class="icon_form">
                     <input type="hidden" name="faction_id" value="{{faction_id}}">
-                    <input type="button" name="Edit" value="EDIT">
+                    <input type="submit" name="Edit" value="EDIT">
                 </form>
 
                 <!-- DELETE A SKILL -->
                 <form method="post" id="post_delete_faction" class="icon_form">
                     <input type="hidden" name="faction_id" value="{{faction_id}}">
-                    <input type="button" name="Delete" value="&#10060">
+                    <input type="submit" name="Delete" value="&#10060">
                 </form>
 
             </td>
