@@ -548,7 +548,7 @@ app.post('/factions.html', function(req, res, next) {
     /* SAVE: UPDATES a the selected world's data and loads the "Worlds" page.*/
     if (req.body['Save']) {
 
-        xData.pool.query("UPDATE factions SET factions.name= ?, factions.acronym =? WHERE factions.faction_id=?", [req.body.name, req.body.acronym, req.body.faction_id], function (err) {
+        xData.pool.query("UPDATE factions SET factions.name= ?, factions.acronym =? WHERE factions.faction_id=?", [req.body.faction_name, req.body.acronym, req.body.faction_id], function (err) {
             /* Skips to the 500 page is an error is returned.*/
             if (err) {
                 next(err);
