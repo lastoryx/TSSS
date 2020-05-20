@@ -548,7 +548,7 @@ app.post('/factions.html', function(req, res, next) {
     /* SAVE: UPDATES a the selected world's data and loads the "Worlds" page.*/
     if (req.body['Save']) {
 
-        xData.pool.query("UPDATE factions SET factions.name= ?, factions.acronym =? WHERE factions.faction_id=?", [req.body.faction_name, req.body.acronym, req.body.faction_id], function (err) {
+        xData.pool.query("UPDATE factions SET factions.name= ?, factions.acronym =? WHERE factions.faction_id=?", [req.body.name, req.body.acronym, req.body.faction_id], function (err) {
             /* Skips to the 500 page is an error is returned.*/
             if (err) {
                 next(err);
@@ -1107,7 +1107,7 @@ function renderWorlds(res, next, context) {
 
 function renderUpdateWorld(res, next, context) {
 	/* Populate the input fields with the previous data */
-    xData.pool.query("SELECT worlds.world_id, worlds.name, worlds.location, worlds.population, worlds.designation, factions.faction_id, factions.name AS faction_name FROM worlds LEFT JOIN factions ON worlds.faction=factions.faction_id WHERE worlds.world_id=?", [context.world_id], function (err, result) {
+    xData.pool.query("SELECT worlds.world_id, worlds.name, worlds.location, worlds.population, factions.faction_id, factions.name AS faction_name FROM worlds LEFT JOIN factions ON worlds.faction=factions.faction_id WHERE worlds.world_id=?", [context.world_id], function (err, result) {
         /* Skips to the 500 page if an error is returned.*/
         if (err) {
             next(err);
